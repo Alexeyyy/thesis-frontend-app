@@ -2,7 +2,9 @@ export default {
     state: {
         loading: false,
         error: null,
-        info: null
+        info: null,
+        showPerPage: 12,
+        token: '+++++++++' // временно пока что - для демки пойдет.
     },
     mutations: {
         setLoading (state, payload) {
@@ -47,6 +49,12 @@ export default {
         },
         info (state) {
             return state.info
+        },
+        token (state) {
+            return state.token
+        },
+        showPerPage (state) {
+            return state.showPerPage
         }
     }
 }

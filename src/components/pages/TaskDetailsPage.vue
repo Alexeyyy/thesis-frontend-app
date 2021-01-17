@@ -32,7 +32,7 @@
                                 <v-col cols="2">
                                     <v-layout raw>
                                         <v-avatar size="30px">
-                                            <img :src="task.alpha.avatarUrl">
+                                            <img :src="task.alpha.avatar_url">
                                         </v-avatar>
                                         <span class="ml-2">
                                             @{{ task.alpha.login }}
@@ -134,7 +134,7 @@
                                                             v-bind="attrs"
                                                             v-on="on"
                                                         >
-                                                            <img :src="member.avatarUrl">
+                                                            <img :src="member.avatar_url">
                                                         </v-avatar>
                                                     </template>
                                                     <span>{{ member.name }}</span>
@@ -243,17 +243,17 @@ import BarChart from './components/BarChart'
                                 id: 526301,
                                 name: 'Yegor Bugaenko',
                                 login: 'yegor256',
-                                avatarUrl: 'https://avatars3.githubusercontent.com/u/526301?v=4'
+                                avatar_url: 'https://avatars3.githubusercontent.com/u/526301?v=4'
                             },
                             {
                                 id: 3105537,
-                                avatarUrl: 'https://avatars1.githubusercontent.com/u/3105537?v=4',
+                                avatar_url: 'https://avatars1.githubusercontent.com/u/3105537?v=4',
                                 login: 'Alexeyyy',
                                 name: 'Alex Zhelepov'
                             },
                             {
                                 login: 'mojombo',
-                                avatarUrl: 'https://avatars0.githubusercontent.com/u/1?v=4',
+                                avatar_url: 'https://avatars0.githubusercontent.com/u/1?v=4',
                                 id: 1,
                                 name: 'Tom Preston-Werner'
                             },
@@ -261,12 +261,12 @@ import BarChart from './components/BarChart'
                                 id: 3105477,
                                 login: 'vladdy-moses',
                                 name: 'Vladislav Moiseev',
-                                avatarUrl: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
+                                avatar_url: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
                             },
                             {
                                 id: 747988,
                                 login: 'vgv',
-                                avatarUrl: 'https://avatars0.githubusercontent.com/u/747988?v=4',
+                                avatar_url: 'https://avatars0.githubusercontent.com/u/747988?v=4',
                                 name: 'Vasily Vasilkov'
                             }
                         ],
@@ -307,17 +307,17 @@ import BarChart from './components/BarChart'
                                 id: 526301,
                                 name: 'Yegor Bugaenko',
                                 login: 'yegor256',
-                                avatarUrl: 'https://avatars3.githubusercontent.com/u/526301?v=4'
+                                avatar_url: 'https://avatars3.githubusercontent.com/u/526301?v=4'
                             },
                             {
                                 id: 3105537,
-                                avatarUrl: 'https://avatars1.githubusercontent.com/u/3105537?v=4',
+                                avatar_url: 'https://avatars1.githubusercontent.com/u/3105537?v=4',
                                 login: 'Alexeyyy',
                                 name: 'Alex Zhelepov'
                             },
                             {
                                 login: 'mojombo',
-                                avatarUrl: 'https://avatars0.githubusercontent.com/u/1?v=4',
+                                avatar_url: 'https://avatars0.githubusercontent.com/u/1?v=4',
                                 id: 1,
                                 name: 'Tom Preston-Werner'
                             },
@@ -325,36 +325,36 @@ import BarChart from './components/BarChart'
                                 id: 3105477,
                                 login: 'vladdy-moses',
                                 name: 'Vladislav Moiseev',
-                                avatarUrl: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
+                                avatar_url: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
                             },
                             {
                                 id: 747988,
                                 login: 'vgv',
-                                avatarUrl: 'https://avatars0.githubusercontent.com/u/747988?v=4',
+                                avatar_url: 'https://avatars0.githubusercontent.com/u/747988?v=4',
                                 name: 'Vasily Vasilkov'
                             },
                             {
                                 id: 3105477,
                                 login: 'vladdy-moses',
                                 name: 'Vladislav Moiseev',
-                                avatarUrl: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
+                                avatar_url: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
                             },
                             {
                                 id: 747988,
                                 login: 'vgv',
-                                avatarUrl: 'https://avatars0.githubusercontent.com/u/747988?v=4',
+                                avatar_url: 'https://avatars0.githubusercontent.com/u/747988?v=4',
                                 name: 'Vasily Vasilkov'
                             },
                             {
                                 id: 3105477,
                                 login: 'vladdy-moses',
                                 name: 'Vladislav Moiseev',
-                                avatarUrl: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
+                                avatar_url: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
                             },
                             {
                                 id: 747988,
                                 login: 'vgv',
-                                avatarUrl: 'https://avatars0.githubusercontent.com/u/747988?v=4',
+                                avatar_url: 'https://avatars0.githubusercontent.com/u/747988?v=4',
                                 name: 'Vasily Vasilkov'
                             }
                         ],
