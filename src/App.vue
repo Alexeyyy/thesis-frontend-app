@@ -33,7 +33,7 @@
           class="hidden-md-and-up"
         ></v-app-bar-nav-icon>
         <v-toolbar-title>
-          <router-link :to="'/'" tag="span" class="pointer">
+          <router-link :to="'/alpha'" tag="span" class="pointer">
             Поиск комплементарных команд 
           </router-link>
         </v-toolbar-title>

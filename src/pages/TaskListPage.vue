@@ -27,77 +27,21 @@
             <v-tab-item
                 :value="'tab-1'"
             >
-                <div v-if="tasks.length > 0">
+                <div v-if="finishedTasks.length > 0">
                     <v-container class="max-width">
                         <v-row
-                             v-for="(task, index) in tasks" 
+                             v-for="(task, index) in finishedTasks" 
                             :key="task.id"
                         >
                             <v-col>
                                 <v-row>
                                     <v-col>
-                                        <v-card
-                                            elevation="0"
-                                            class="pa-2 mt-7"
-                                        >
-                                            <div class="d-flex flex-no-wrap justify-space-between">
-                                                <div class="d-flex flex-no-wrap">
-                                                    <div class="mr-4 mt-4">
-                                                        <v-progress-circular
-                                                            :rotate="360"
-                                                            :size="80"
-                                                            :width="10"
-                                                            :value="50"
-                                                            color="primary"
-                                                        >
-                                                        {{ 50 }}
-                                                        </v-progress-circular>
-                                                    </div>
-                                                    <div>
-                                                        <v-card-title>
-                                                            #{{ task.id }}
-                                                        </v-card-title>
-                                                        <v-card-subtitle>
-                                                            alpha: @yegor256
-                                                        </v-card-subtitle>
-                                                        <v-card-text>
-                                                            <p>
-                                                                <strong>Длительность</strong>: {{ }}
-                                                            </p>
-                                                            <p>
-                                                                <strong>Глубина</strong>:{{ }}
-                                                            </p>
-                                                            <p>
-                                                                <strong>Резюме</strong>: {{ }}
-                                                            </p>
-                                                        </v-card-text>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <v-card-actions>
-                                                        <v-btn class="bottom-pos" color="primary" fab x-small plain :to="`/task/${task.id}`">
-                                                            <v-icon>mdi-chart-bar</v-icon>
-                                                        </v-btn>
-                                                        <v-btn class="bottom-pos" color="primary" fab x-small plain :to="`/task/${task.id}`">
-                                                            <v-icon>mdi-account-multiple</v-icon>
-                                                        </v-btn>
-                                                    </v-card-actions>
-                                                </div>
-                                            </div>
-                                        </v-card>
+                                        <task-list-item :task="task" :processing="false"></task-list-item>
                                     </v-col>
                                 </v-row>
-                                <v-row v-if="index < tasks.length - 1">
+                                <v-row v-if="index < finishedTasks.length - 1">
                                     <v-divider></v-divider>
                                 </v-row>
-                            </v-col>
-                        </v-row>
-                        <v-row class="mt-3">
-                            <v-col>
-                                <v-pagination
-                                    :length="4"
-                                    circle
-                                ></v-pagination>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -114,7 +58,26 @@
             <v-tab-item
                 :value="'tab-2'"
             >
-                <div class="pa-6 text-center">
+                <div v-if="processingTasks.length > 0">
+                    <v-container class="max-width">
+                        <v-row
+                             v-for="(task, index) in processingTasks" 
+                            :key="task.id"
+                        >
+                            <v-col>
+                                <v-row>
+                                    <v-col>
+                                        <task-list-item :task="task" :processing="true"></task-list-item>
+                                    </v-col>
+                                </v-row>
+                                <v-row v-if="index < processingTasks.length - 1">
+                                    <v-divider></v-divider>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </div>
+                <div v-else class="pa-6 text-center">
                     <h2 class="mt-12 text--disabled">
                         Нет данных для отображения
                     </h2>
@@ -137,16 +100,27 @@
 </template>
 
 <script>
+import taskListItem from '@/components/TaskListItem'
+
 export default {
     data () {
         return {
-            tab: null,
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+            tab: null
         }
     },
+    components: { taskListItem },
     computed: {
         tasks () {
             return this.$store.getters.tasks
+        },
+        finishedTasks () {
+            return this.$store.getters.finishedTasks
+        },
+        processingTasks () {
+            return this.$store.getters.processingTasks
+        },
+        erroredTasks () {
+            return this.$store.getters.erroredTasks
         }
     }
 }
@@ -154,6 +128,6 @@ export default {
 
 <style scoped>
     .max-width {
-        max-width: 600px;
+        max-width: 800px;
     }
 </style>

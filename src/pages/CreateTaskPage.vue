@@ -8,6 +8,17 @@
             </v-card-title>
             <v-card-text>
                 <v-form v-model="valid" ref="form" validation>
+                    <v-text-field
+                        class="mb-5"
+                        v-model="name"
+                        full-width
+                        required
+                        label="Наименование поиска"
+                        prepend-inner-icon="mdi-tag"
+                        :rules="[ value => Boolean(value) || 'Требуется наименование поиска']"
+                    >
+                    </v-text-field>
+                    
                     <v-btn
                         v-if="!selectedAlpha"
                         class="mb-5"
@@ -86,6 +97,7 @@ export default {
                 color: 'primary',
                 step: 1
             },
+            name: '',
             selectedAlpha: null,
             showDialog: false
         }
@@ -96,10 +108,13 @@ export default {
     methods: {
         createTask () {
             const task = {
-                alphaId: this.selectedAlpha.id,
+                alpha: this.selectedAlpha,
+                name: this.name,
                 depth: this.depth.val,
                 duration: this.duration.val
             }
+
+            console.log(JSON.stringify(task))
             this.$store.dispatch('createTask', task)
         },
         onAlphaChosen (alpha) {

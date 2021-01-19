@@ -21,7 +21,8 @@
                     <a :href="selectedAlpha.html_url" target="_blank">@{{selectedAlpha.login}}</a>
                 </v-card-subtitle>
 
-                <v-card-text v-text="`Java, C#, Vue`">
+                <v-card-text>
+                    <skills-list :techs="selectedAlpha.techs" :showString="true"></skills-list>
                 </v-card-text>
 
                 <v-btn 

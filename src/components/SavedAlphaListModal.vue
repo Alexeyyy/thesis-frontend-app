@@ -12,16 +12,16 @@
                 >Выбор Alpha</v-toolbar>
                 
                 <v-card-text>
-                    <div>
-                        <v-text-field
-                            full-width
-                            label="Поиск alpha"
-                            prepend-inner-icon="mdi-account-search"
-                            v-model="flt"
-                        >
-                        </v-text-field>
-                    </div>
                     <div class="pa-3" v-if="alphaList.length > 0">
+                        <div>
+                            <v-text-field
+                                full-width
+                                label="Поиск alpha"
+                                prepend-inner-icon="mdi-account-search"
+                                v-model="flt"
+                            >
+                            </v-text-field>
+                        </div>
                         <v-list class="popup-inner-list overflow-y-auto" two-line>
                             <v-list-item-group
                                 v-model="defaultSelectedIndex"
@@ -41,7 +41,9 @@
                                                     v-text="`@${item.login}`"
                                                 ></v-list-item-subtitle>
 
-                                                <v-list-item-subtitle class="mt-1" v-text="`ТОП-технологий: Java, C#, Vue`"></v-list-item-subtitle>
+                                                <v-list-item-subtitle class="mt-1">
+                                                    <skills-list :techs="item.techs" :showString="true"></skills-list>
+                                                </v-list-item-subtitle>
                                             </v-list-item-content>
 
                                             <v-list-item-action>
@@ -71,10 +73,15 @@
                             </v-list-item-group>
                         </v-list>
                     </div>
-                    <div class="pa-3" v-else>
-                        <h2 class="text-center mt-12 text--disabled">
+                    <div class="pa-3 text-center" v-else>
+                        <h2 class="mt-12 text--disabled">
                             Нет данных для отображения
                         </h2>
+                        <div>
+                            <v-btn outlined color="success" class="mt-4" :to="'/alpha'">
+                                Добавить alpha
+                            </v-btn>
+                        </div>
                     </div>
                 </v-card-text>
                 

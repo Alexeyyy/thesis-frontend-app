@@ -141,7 +141,7 @@
                                                 </v-tooltip>
                                             </v-col>
                                             <v-col cols="3">
-                                                <skills-list :techs="team.techList"></skills-list>
+                                                <skills-list :techs="team.techList" :showString="false"></skills-list>
                                             </v-col>
                                             <v-col cols="3">
                                                 <v-layout v-for="metric in team.metrics" :key="metric.name" raw>
@@ -191,14 +191,14 @@
                                         </v-row>
                                     </v-col>
                                 </v-row>
-                                <v-row class="mt-4">
+                                <!--<v-row class="mt-4">
                                     <v-col>
                                         <v-pagination
                                             :length="4"
                                             circle
                                         ></v-pagination>
                                     </v-col>
-                                </v-row>
+                                </v-row>-->
                             </v-container>
                         </template>
                     </v-card-text>

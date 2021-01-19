@@ -212,7 +212,7 @@
                                                             {{ item.email }}
                                                         </span>
                                                         <span class="subheading mr-2" v-else>
-                                                            No data
+                                                            Нет данных
                                                         </span>
                                                     </div>
                                                 </template>
@@ -234,7 +234,29 @@
                                                         </v-icon>
                                                         <span class="subheading mr-2" v-if="item.location">{{ item.location}}</span>
                                                         <span class="subheading mr-2" v-else>
-                                                            No data
+                                                            Нет данных
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                                <span>Местоположение</span>
+                                            </v-tooltip>
+                                        </v-row>
+                                        <v-row
+                                            align="center"
+                                            class="mb-3"
+                                        >
+                                            <v-tooltip top color="black">
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <div
+                                                        v-on="on"
+                                                        v-bind="attrs"
+                                                    >
+                                                        <v-icon class="mr-1">
+                                                            mdi-flag
+                                                        </v-icon>
+                                                        <span class="subheading mr-2" v-if="item.company">{{ item.company}}</span>
+                                                        <span class="subheading mr-2" v-else>
+                                                            Нет данных
                                                         </span>
                                                     </div>
                                                 </template>
@@ -248,7 +270,7 @@
 
                                 <v-card-title>Топ-навыки</v-card-title>
                                 <v-card-text>
-                                    <skills-list :techs="item.techs" ></skills-list>
+                                    <skills-list :techs="item.techs" :showString="false"></skills-list>
                                 </v-card-text>
 
                                 <v-divider></v-divider>
