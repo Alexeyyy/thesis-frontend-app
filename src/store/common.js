@@ -4,7 +4,7 @@ export default {
         error: null,
         info: null,
         showPerPage: 12,
-        token: '+++++++++' // временно пока что - для демки пойдет.
+        token: 'd06e6d3a118e9cd9a37d376bad38bc5babc54185' // временно пока что - для демки пойдет.
     },
     mutations: {
         setLoading (state, payload) {

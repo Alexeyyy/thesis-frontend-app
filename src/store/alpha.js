@@ -1,6 +1,5 @@
 import { searchUsers, getUserInfo, getUserRepos } from '@/api/gitHubApi'
 import { getTopElementsFromDict } from '@/helpers/commonHelper'
-import { compareBuild } from 'semver'
 
 export default {
     state: {
@@ -9,6 +8,8 @@ export default {
             login: '',
             language: '',
             location: '',
+            repos: 0,
+            followers: 0,
             page: 1,
             totalCount: 0
         },
@@ -23,6 +24,7 @@ export default {
             if (state.savedAlphaList.find(a => a.id === payload.id)) {
                 return
             }
+            state.alphaList[state.alphaList.findIndex(el => el.id === payload.id)].inSavedAlphaList = true
             state.savedAlphaList.push(payload)
         },
         saveRequest (state, { nickname, languages, location, reposCountRange }) {
@@ -35,12 +37,15 @@ export default {
             state.lastSearch.login = query.login
             state.lastSearch.language = query.language
             state.lastSearch.location = query.location
+            state.lastSearch.followers = query.followers
+            state.lastSearch.repos = query.repos
+
             state.lastSearch.page = query.page
             state.lastSearch.totalCount = totalCount
         }
     },
     actions: {
-        async searchAlphaUsers ({ commit }, request) {
+        async searchAlphaUsers ({ commit, state }, request) {
             commit('clearError')
             commit('setLoading', true)
 
@@ -69,6 +74,7 @@ export default {
                         }
                     })
 
+                    const savedAlphaList = JSON.parse(JSON.stringify(state.savedAlphaList))
                     usersData.push({
                         id: data.id,
                         avatar_url: data.avatar_url,
@@ -86,6 +92,7 @@ export default {
                         gists: data.public_gists,
                         followers: data.followers,
                         following: data.following,
+                        inSavedAlphaList: savedAlphaList.findIndex(a => a.id === data.id) !== -1
                     })
                 });
                 
@@ -104,8 +111,9 @@ export default {
     },
     getters: {
         alphaList (state) {
-            const saved = state.savedAlphaList.map(a => a.id)
-            return state.alphaList.filter(a => !saved.includes(a.id))
+            // const saved = state.savedAlphaList.map(a => a.id)
+            // return state.alphaList.filter(a => !saved.includes(a.id))
+            return state.alphaList
         },
         savedAlphaList (state) {
             return state.savedAlphaList
@@ -115,6 +123,9 @@ export default {
         },
         totalCount (state) {
             return state.lastSearch.totalCount
+        },
+        lastSearch (state) {
+            return state.lastSearch
         }
     }
 }

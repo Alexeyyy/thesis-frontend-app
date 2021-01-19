@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HomePage from '@/components/pages/HomePage'
-import AlphaSearchPage from '@/components/pages/AlphaSearchPage'
-import TaskListPage from '@/components/pages/TaskListPage'
-import TaskDetailsPage from '@/components/pages/TaskDetailsPage'
-import CreateTaskPage from '@/components/pages/CreateTaskPage'
+import HomePage from '@/pages/HomePage'
+import AlphaSearchPage from '@/pages/AlphaSearchPage'
+import TaskListPage from '@/pages/TaskListPage'
+import TaskDetailsPage from '@/pages/TaskDetailsPage'
+import CreateTaskPage from '@/pages/CreateTaskPage'
 
 Vue.use(Router)
 

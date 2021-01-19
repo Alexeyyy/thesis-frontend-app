@@ -4,23 +4,24 @@ export function searchUsers({ language, location, followers, repos, login, showP
     let queryParts = []
     queryParts.push(`type:user`)
     if (language) {
-        queryParts.push(`language:${language}`)
+        queryParts.push(`language:${encodeURIComponent(language)}`)
     }
     if (location) {
-        queryParts.push(`location:${location}`)
+        queryParts.push(`location:${encodeURIComponent(location)}`)
     }
     if (repos) {
-        queryParts.push(`repos:${repos}`)
+        queryParts.push(`repos:>=${repos}`)
     }
     if (login) {
-        queryParts.push(`login:${login}`)
+        queryParts.push(`user:${encodeURIComponent(login)}`)
     }
     if (followers) {
-        queryParts.push(`followers:${followers}`)
+        queryParts.push(`followers:>=${followers}`)
     }
     
     let query = queryParts.join('+')
     let url = `https://api.github.com/search/users?q=${query}&per_page=${showPerPage}&page=${page}`
+    console.log(url)
 
     return processGET(url, token)
 }
@@ -43,11 +44,13 @@ function processGET(url, token) {
             if (request.status === 200) {
                 resolve(request.response)
             } else {
+                console.log(request.response)
                 reject(Error(request.statusText))
             }
         }
     
         request.onerror = () => {
+            console.log(request.response)
             reject(Error(networkErrorMsg))
         }
     

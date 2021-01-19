@@ -7,39 +7,79 @@
                 </h2>
             </v-card-title>
             <v-card-text>
-                <v-layout raw>
-                    <v-flex xs12>
+                <v-layout raw wrap>
+                    <v-flex xs12> 
                         <v-text-field
+                            v-model="language"
                             full-width
-                            label="Ник на GitHub"
+                            label="Основная технология (язык программирования) ..."
+                            prepend-inner-icon="mdi-sword"
+                        >
+                        </v-text-field>
+                    </v-flex>
+                </v-layout>
+                <v-layout raw wrap>
+                    <v-flex xs12> 
+                        <v-text-field
+                            v-model="location"
+                            full-width
+                            label="Местоположение ..."
                             prepend-inner-icon="mdi-map-marker"
                         >
                         </v-text-field>
                     </v-flex>
                 </v-layout>
                 <v-layout raw wrap>
-                    <v-flex xs12 sm6 md6> 
+                    <v-btn
+                        text
+                        small
+                        @click="showExtraSearchParams()"
+                    >
+                        <span 
+                            v-if="!showExtraParams"
+                        >
+                            Показать доп. параметры
+                        </span>
+                        <span v-else>
+                            Скрыть доп. параметры
+                        </span>
+                    </v-btn>                        
+                </v-layout>
+            </v-card-text>
+            <v-card-text v-if="showExtraParams">
+                <v-layout raw wrap>
+                    <v-flex xs12> 
+                        <v-slider
+                            v-model="repos"
+                            :label="'Репозиториев больше чем'"
+                            :step="1"
+                            :max="10000"
+                            thumb-color="primary"
+                            thumb-label="always"
+                        ></v-slider>
+                    </v-flex>
+                </v-layout>
+                <v-layout raw wrap>
+                    <v-flex xs12> 
+                        <v-slider
+                            v-model="followers"
+                            :label="'Фолловеров больше чем'"
+                            :step="1"
+                            :max="10000"
+                            thumb-color="primary"
+                            thumb-label="always"
+                        ></v-slider>
+                    </v-flex>
+                </v-layout>
+                <v-layout raw>
+                    <v-flex xs12>
                         <v-text-field
+                            v-model="login"
                             full-width
-                            label="Технологии"
-                            prepend-inner-icon="mdi-map-marker"
+                            label="Имя ..."
+                            prepend-inner-icon="mdi-account"
                         >
                         </v-text-field>
-                    </v-flex>
-                    <v-flex xs12 sm6 md6>
-                        <v-chip-group column>
-                            <v-chip v-for="n in demoChipsCount"
-                                :key="n"
-                                class="ma-2"
-                                close
-                                color="primary"
-                                text-color="white"
-                                close-icon="mdi-close"
-                                @click:close="close()"
-                            >
-                                Java
-                            </v-chip>
-                        </v-chip-group>
                     </v-flex>
                 </v-layout>
             </v-card-text>
@@ -48,7 +88,8 @@
                     <v-flex xs12>
                         <v-btn 
                             color="primary"
-                            @click="searchPage(page)"
+                            :loading="loading"
+                            @click="searchPage(1)"
                         >
                             Начать поиск
                         </v-btn>
@@ -61,25 +102,13 @@
         <v-container v-if="loading" fluid>
             <v-row>
                 <v-col>
-                    <v-layout raw wrap>
-                        <v-flex 
-                            xs12 sm4 md3
-                            v-for="index in loadingCardsCount"
-                            :key="index"
-                            class="pa-2"
-                        >
-                            <v-card>
-                                <v-skeleton-loader
-                                    type="image, article"
-                                ></v-skeleton-loader>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
+                    <alpha-search-skeleton-loader :loadingCardsCount="loadingCardsCount"></alpha-search-skeleton-loader>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col>
                     <v-pagination
+                        v-if="totalCount > showPerPage"
                         v-model="page"
                         class="mt-6"
                         :disabled="true"
@@ -89,7 +118,16 @@
                 </v-col>
             </v-row>
         </v-container>
-        <v-container v-else-if="!loading && alphaList.length > 0" fluid>
+        <v-container v-else-if="alphaList.length === 0" fluid>
+            <v-row>
+                <v-col>
+                    <h2 class="text-center mt-15 text--disabled">
+                        Нет данных для отображения
+                    </h2>
+                </v-col>
+            </v-row>
+        </v-container>
+        <v-container v-else-if="!loading" fluid>
             <v-row>
                 <v-col>
                     <v-layout raw wrap>
@@ -210,15 +248,7 @@
 
                                 <v-card-title>Топ-навыки</v-card-title>
                                 <v-card-text>
-                                    <v-chip-group
-                                        column
-                                        v-if="item.techs.length > 0"
-                                    >
-                                        <v-chip v-for="tech in item.techs" :key="tech">{{ tech }}</v-chip>
-                                    </v-chip-group>
-                                    <span v-else>
-                                        Нет данных
-                                    </span>
+                                    <skills-list :techs="item.techs" ></skills-list>
                                 </v-card-text>
 
                                 <v-divider></v-divider>
@@ -226,11 +256,22 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn 
+                                        v-if="!item.inSavedAlphaList"
                                         text 
                                         color="primary"
                                         @click="saveAlpha(item.id)"
                                     >
                                         Добавить
+                                    </v-btn>
+                                    <v-btn 
+                                        v-else
+                                        text
+                                        :disabled="true"
+                                    >
+                                        <v-icon left>
+                                            mdi-check
+                                        </v-icon>
+                                        Добавлен
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
@@ -241,6 +282,7 @@
             <v-row>
                 <v-col>
                     <v-pagination
+                        v-if="totalCount > showPerPage"
                         v-model="page"
                         class="mt-6"
                         :length="pageLimitToShow"
@@ -249,35 +291,41 @@
                 </v-col>
             </v-row>
         </v-container>
-        <v-container v-else fluid>
-            <v-row>
-                <v-col>
-                    <h2 class="text-center mt-15 text--disabled">
-                        Нет данных для отображения
-                    </h2>
-                </v-col>
-            </v-row>
-        </v-container>
     </v-container>
 </template>
 
 <script>
+import alphaSearchSkeletonLoader from '@/components/AlphaSearchSkeletonLoader.vue'
+
 export default {
     data () {
         return {
             loadingCardsCount: 8,
-            demoChipsCount: 7,
+            showExtraParams: false,
             page: 1,
-            pageLimit: 100
+            // Only the first 1000 search results are available according to GitHub API.
+            pageLimit: 80,
+            // Search params.
+            language: '',
+            location: '',
+            repos: 0,
+            followers: 0,
+            login: ''
         }
+    },
+    components: {
+        alphaSearchSkeletonLoader
     },
     methods: {
         searchPage (page) {
             this.page = page
             const request = {
                 query: {
-                    language: 'python',
-                    location: 'moscow',
+                    language: this.language,
+                    location: this.location,
+                    repos: this.repos,
+                    followers: this.followers,
+                    login: this.login,
                     page: this.page,
                     showPerPage: this.showPerPage
                 },
@@ -285,9 +333,13 @@ export default {
             }
             this.$store.dispatch('searchAlphaUsers', request)
         },
-        close () {
-            console.log('Close chip')
-            this.$store.dispatch('setError', 'Ошибка вышла')
+        showExtraSearchParams () {
+            this.showExtraParams = !this.showExtraParams
+            if (!this.showExtraParams) {
+                this.repos = 0
+                this.followers = 0
+                this.login = ''
+            }
         },
         saveAlpha (id) {
             const alpha = this.$store.getters.getAlphaById(id)
@@ -305,7 +357,7 @@ export default {
             return this.$store.getters.lastSearch
         },
         pageLimitToShow () {
-            let apiPageLimit = Math.floor(this.$store.getters.totalCount / this.$store.getters.showPerPage)
+            let apiPageLimit = Math.ceil(this.totalCount / this.showPerPage)
             if (apiPageLimit < this.pageLimit) {
                 return apiPageLimit
             }
@@ -313,6 +365,9 @@ export default {
         },
         showPerPage () {
             return this.$store.getters.showPerPage
+        },
+        totalCount () {
+            return this.$store.getters.totalCount
         },
         token () {
             return this.$store.getters.token
@@ -325,6 +380,18 @@ export default {
             }
         }
     },
+    mounted () {
+        this.repos = this.lastSearch.repos
+        this.language = this.lastSearch.language
+        this.followers = this.lastSearch.followers
+        this.login = this.lastSearch.login
+        this.location = this.lastSearch.location
+        this.page = this.lastSearch.page
+
+        if (this.login || this.followers > 0 || this.repos > 0) {
+            this.showExtraParams = true
+        }
+    }
 }
 </script>
 

@@ -141,11 +141,7 @@
                                                 </v-tooltip>
                                             </v-col>
                                             <v-col cols="3">
-                                                <v-chip-group
-                                                    column
-                                                >
-                                                    <v-chip v-for="tech in team.techList" :key="tech">{{ tech }}</v-chip>
-                                                </v-chip-group>
+                                                <skills-list :techs="team.techList"></skills-list>
                                             </v-col>
                                             <v-col cols="3">
                                                 <v-layout v-for="metric in team.metrics" :key="metric.name" raw>
@@ -213,7 +209,7 @@
 </template>
 
 <script>
-import BarChart from './components/BarChart'
+import BarChart from '@/components/charts/BarChart'
 
     export default {
         components: { BarChart },
