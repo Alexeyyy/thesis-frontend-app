@@ -1,4 +1,4 @@
-const TaskStatus = Object.freeze({'FINISHED': 1, 'ERROR': 2, 'PROCESSING': 3})
+const TaskStatus = Object.freeze({'FINISHED': 1, 'PROCESSING': 2, 'ERROR': 3})
 
 class Task {
     constructor(id, depth, duration, alpha) {
@@ -12,7 +12,7 @@ class Task {
 
 export default {
     state: {
-        tasks: [
+        /*tasks: [
             {
                 id: 1,
                 "alpha":{
@@ -121,9 +121,14 @@ export default {
                     teams: 583
                 }
              }
-        ]
+        ]*/
+        tasks: [],
+        demoTasks: []
     },
     mutations: {
+        fillDemoTasks (state, payload) {
+            state.demoTasks = payload
+        },
         addTask (state, payload) {
             state.tasks.push(payload)
         }
@@ -155,15 +160,27 @@ export default {
     },
     getters: {
         tasks (state) {
+            if (true) {
+                return state.demoTasks
+            }
             return state.tasks
         },
         finishedTasks (state) {
+            if (true) {
+                return state.demoTasks.filter(t => t.status === TaskStatus.FINISHED)
+            }
             return state.tasks.filter(t => t.status === TaskStatus.FINISHED)
         },
         processingTasks (state) {
+            if (true) {
+                return state.demoTasks.filter(t => t.status === TaskStatus.PROCESSING)
+            }
             return state.tasks.filter(t => t.status === TaskStatus.PROCESSING)
         },
         erroredTasks (state) {
+            if (true) {
+                return state.demoTasks.filter(t => t.status === TaskStatus.ERROR)
+            }
             return state.tasks.filter(t => t.status === TaskStatus.ERROR)
         }
     }

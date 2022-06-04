@@ -3,7 +3,7 @@
         <v-card class="mb-3 pa-5">
             <v-card-title>
                 <h2 class="mb-5">
-                    Создание поиска
+                    Создать поиск
                 </h2>
             </v-card-title>
             <v-card-text>
@@ -13,7 +13,7 @@
                         v-model="name"
                         full-width
                         required
-                        label="Наименование поиска"
+                        label="Search name"
                         prepend-inner-icon="mdi-tag"
                         :rules="[ value => Boolean(value) || 'Требуется наименование поиска']"
                     >
@@ -61,13 +61,35 @@
                         thumb-label="always"
                     ></v-slider>
 
+                    <v-slider
+                        class="mb-5"
+                        v-model="crc.val"
+                        :label="crc.label"
+                        :step="crc.step"
+                        :max="crc.max"
+                        :tick-size="crc.step"
+                        :thumb-color="crc.color"
+                        thumb-label="always"
+                    ></v-slider>
+
+                    <v-slider
+                        class="mb-5"
+                        v-model="mtmc.val"
+                        :label="mtmc.label"
+                        :step="mtmc.step"
+                        :max="mtmc.max"
+                        :tick-size="mtmc.step"
+                        :thumb-color="mtmc.color"
+                        thumb-label="always"
+                    ></v-slider>
+
                     <v-btn
                         :loading="loading"
                         :disabled="!valid || selectedAlpha === null"
                         class="success"
                         @click="createTask()"
                     >
-                        Сохранить
+                        Запустить поиск
                     </v-btn>
                 </v-form>
             </v-card-text>
@@ -84,16 +106,30 @@ export default {
         return {
             valid: false,
             depth: {
-                label: 'Глубина поиска',
+                label: 'Глубина',
                 max: 5,
                 val: 1,
                 color: 'primary',
                 step: 1
             },
             duration: {
-                label: 'Продолжительность поиска, мин.',
+                label: 'Ограничение по времени, мин.',
                 max: 180,
                 val: 60,
+                color: 'primary',
+                step: 1
+            },
+            crc: {
+                label: 'Наименьшее число общих репозиториев',
+                max: 50,
+                val: 1,
+                color: 'primary',
+                step: 1
+            },
+            mtmc: {
+                label: 'Минимальное число членов команды',
+                max: 50,
+                val: 1,
                 color: 'primary',
                 step: 1
             },

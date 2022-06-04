@@ -1,9 +1,11 @@
 import { searchUsers, getUserInfo, getUserRepos } from '@/api/gitHubApi'
 import { getTopElementsFromDict } from '@/helpers/commonHelper'
+import { generateTasks, generateTeams } from '@/helpers/generator'
 
 export default {
     state: {
         alphaList: [],
+        demoTeams: [],
         lastSearch: {
             login: '',
             language: '',
@@ -19,6 +21,9 @@ export default {
     mutations: {
         setAlphaList (state, payload) {
             state.alphaList = payload
+        },
+        fillDemoTeams (state, payload) {
+            state.demoTeams = payload
         },
         saveAlpha (state, payload) {
             if (state.savedAlphaList.find(a => a.id === payload.id)) {
@@ -58,9 +63,10 @@ export default {
 
                 // Чтение данных пользователей.
                 // Репозитории все не перебираются - берутся все, что есть по ссылке на первой странице.
-                users.forEach(async (user) => {
+                for (const user of users) {
                     let data = JSON.parse(await getUserInfo(user.url, request.token))
                     let repos = JSON.parse(await getUserRepos(user.repos_url, request.token))
+
                     let langStats = {}
 
                     repos.forEach(repo => {
@@ -94,8 +100,15 @@ export default {
                         following: data.following,
                         inSavedAlphaList: savedAlphaList.findIndex(a => a.id === data.id) !== -1
                     })
-                });
-                
+                }
+
+                if (true) {
+                    const tasks = generateTasks(usersData)
+                    const teams = generateTeams(usersData, 10)
+                    commit('fillDemoTasks', tasks)
+                    commit('fillDemoTeams', teams)
+                }
+
                 commit('setAlphaList', usersData)
                 commit('saveLastSearch', { query: request.query, totalCount })
                 commit('setLoading', false)
@@ -111,9 +124,10 @@ export default {
     },
     getters: {
         alphaList (state) {
-            // const saved = state.savedAlphaList.map(a => a.id)
-            // return state.alphaList.filter(a => !saved.includes(a.id))
             return state.alphaList
+        },
+        demoTeams (state) {
+            return state.demoTeams
         },
         savedAlphaList (state) {
             return state.savedAlphaList

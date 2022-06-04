@@ -71,7 +71,7 @@
                         Распределение технологий по командам
                     </v-card-title>
                     <v-card-text>
-                         <bar-chart :height="chartHeight" :chart-data="barChartData" :chart-options="chartOptions"></bar-chart>
+                         <bar-chart :height="chartHeight" :chart-data="techBarChartData" :chart-options="chartOptions"></bar-chart>
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -81,7 +81,7 @@
                         Распределение числа разработчиков по командам
                     </v-card-title>
                     <v-card-text>
-                        <bar-chart :height="chartHeight" :chart-data="barChartData" :chart-options="chartOptions"></bar-chart>
+                        <bar-chart :height="chartHeight" :chart-data="membersDistributionBarChartData" :chart-options="chartOptions"></bar-chart>
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -149,7 +149,7 @@
                                                         {{ metric.name }}
                                                     </span>
                                                     <v-rating
-                                                        v-model="metric.value"
+                                                        v-model="metric.valueRating"
                                                         color="primary"
                                                         dense
                                                         readonly
@@ -165,11 +165,8 @@
                                             </v-col>
                                             <v-col cols="2">
                                                 <v-layout raw>
-                                                    <span class="mr-2">
-                                                        Общий рейтинг
-                                                    </span>
                                                     <v-rating
-                                                        v-model="team.overallRating"
+                                                        v-model="team.overallRating.valueRating"
                                                         color="primary"
                                                         dense
                                                         readonly
@@ -179,7 +176,7 @@
                                                     >
                                                     </v-rating>
                                                     <span>
-                                                        ({{ team.overallRating }})
+                                                        ({{ team.overallRating.value }})
                                                     </span>
                                                 </v-layout>
                                             </v-col>
@@ -191,14 +188,6 @@
                                         </v-row>
                                     </v-col>
                                 </v-row>
-                                <!--<v-row class="mt-4">
-                                    <v-col>
-                                        <v-pagination
-                                            :length="4"
-                                            circle
-                                        ></v-pagination>
-                                    </v-col>
-                                </v-row>-->
                             </v-container>
                         </template>
                     </v-card-text>
@@ -210,213 +199,501 @@
 
 <script>
 import BarChart from '@/components/charts/BarChart'
+import { generateTeams, generateArray, generateAscendingArray } from '@/helpers/generator'
 
-    export default {
-        components: { BarChart },
-        data () {
-            return {
-                task: {
-                    id: 1,
-                    name: 'Поиск джавистов',
-                    alpha: {
-                        name: 'Yegor Bugaenko',
-                        avatarUrl: 'https://avatars3.githubusercontent.com/u/526301?v=4',
-                        login: 'yegor256',
-                        mainSkills: ['Java', 'HTML', 'JavaScript']
-                    },
-                    depth: 3,
-                    time: 180,
-                    repos: 45849,
-                    profiles: 465448,
-                    teams: 4597,
-                    teamsTopTechs: ['Java', '.NET', 'JavaScript']
+export default {
+    components: { BarChart },
+    data () {
+        return {
+            task: {
+                id: 1,
+                name: 'Поиск джавистов',
+                alpha: {
+                    name: 'Yegor Bugaenko',
+                    avatar_url: 'https://avatars3.githubusercontent.com/u/526301?v=4',
+                    login: 'yegor256',
+                    mainSkills: ['Java', 'Ruby']
                 },
-                teams: [
-                    {
-                        sort: 1,
-                        members: [
-                            {
-                                id: 526301,
-                                name: 'Yegor Bugaenko',
-                                login: 'yegor256',
-                                avatar_url: 'https://avatars3.githubusercontent.com/u/526301?v=4'
-                            },
-                            {
-                                id: 3105537,
-                                avatar_url: 'https://avatars1.githubusercontent.com/u/3105537?v=4',
-                                login: 'Alexeyyy',
-                                name: 'Alex Zhelepov'
-                            },
-                            {
-                                login: 'mojombo',
-                                avatar_url: 'https://avatars0.githubusercontent.com/u/1?v=4',
-                                id: 1,
-                                name: 'Tom Preston-Werner'
-                            },
-                            {
-                                id: 3105477,
-                                login: 'vladdy-moses',
-                                name: 'Vladislav Moiseev',
-                                avatar_url: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
-                            },
-                            {
-                                id: 747988,
-                                login: 'vgv',
-                                avatar_url: 'https://avatars0.githubusercontent.com/u/747988?v=4',
-                                name: 'Vasily Vasilkov'
-                            }
-                        ],
-                        overallRating: 5.0,
-                        repos: [
-                            {
-                                id: 1,
-                            },
-                            {
-                                id: 2
-                            },
-                            {
-                                id: 3
-                            }
-                        ],
-                        techList: [
-                            'Java', '.NET', 'JavaScript', 'Kafka', 'Vue.js'
-                        ],
-                        metrics: [
-                            {
-                                name: 'Зрелость команды',
-                                value: 4.8
-                            },
-                            {
-                                name: 'Soft skills',
-                                value: 4.5
-                            },
-                            {
-                                name: 'Признание проектов',
-                                value: 4.0
-                            }
-                        ]
-                    },
-                    {
-                        sort: 2,
-                        members: [
-                            {
-                                id: 526301,
-                                name: 'Yegor Bugaenko',
-                                login: 'yegor256',
-                                avatar_url: 'https://avatars3.githubusercontent.com/u/526301?v=4'
-                            },
-                            {
-                                id: 3105537,
-                                avatar_url: 'https://avatars1.githubusercontent.com/u/3105537?v=4',
-                                login: 'Alexeyyy',
-                                name: 'Alex Zhelepov'
-                            },
-                            {
-                                login: 'mojombo',
-                                avatar_url: 'https://avatars0.githubusercontent.com/u/1?v=4',
-                                id: 1,
-                                name: 'Tom Preston-Werner'
-                            },
-                            {
-                                id: 3105477,
-                                login: 'vladdy-moses',
-                                name: 'Vladislav Moiseev',
-                                avatar_url: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
-                            },
-                            {
-                                id: 747988,
-                                login: 'vgv',
-                                avatar_url: 'https://avatars0.githubusercontent.com/u/747988?v=4',
-                                name: 'Vasily Vasilkov'
-                            },
-                            {
-                                id: 3105477,
-                                login: 'vladdy-moses',
-                                name: 'Vladislav Moiseev',
-                                avatar_url: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
-                            },
-                            {
-                                id: 747988,
-                                login: 'vgv',
-                                avatar_url: 'https://avatars0.githubusercontent.com/u/747988?v=4',
-                                name: 'Vasily Vasilkov'
-                            },
-                            {
-                                id: 3105477,
-                                login: 'vladdy-moses',
-                                name: 'Vladislav Moiseev',
-                                avatar_url: 'https://avatars3.githubusercontent.com/u/3105477?v=4'
-                            },
-                            {
-                                id: 747988,
-                                login: 'vgv',
-                                avatar_url: 'https://avatars0.githubusercontent.com/u/747988?v=4',
-                                name: 'Vasily Vasilkov'
-                            }
-                        ],
-                        overallRating: 5.0,
-                        repos: [
-                            {
-                                id: 1,
-                            },
-                            {
-                                id: 2
-                            },
-                            {
-                                id: 3
-                            }
-                        ],
-                        techList: [
-                            'Java', '.NET', 'Vue.js'
-                        ],
-                        metrics: [
-                            {
-                                name: 'Зрелость команды',
-                                value: 4.8
-                            },
-                            {
-                                name: 'Soft skills',
-                                value: 4.5
-                            },
-                            {
-                                name: 'Признание проектов',
-                                value: 4.0
-                            }
-                        ]
-                    },
-                ],
-                barChartData: {
-                    labels: ['3', '4', '5', '6', '7', '8', '9', '10'],
-                    datasets: [
+                depth: 3,
+                time: 1000,
+                repos: 22195,
+                profiles: 177381,
+                teams: 3460,
+                teamsTopTechs: ['Java', 'Kotlin', 'Ruby']
+            },
+
+            teams: [
+                /* Вторая команда */
+                {
+                    sort: 1,
+                    members: [
                         {
-                            label: 'Data One',
-                            backgroundColor: '#1E88E5',
-                            data: [
-                                this.getRandomInt(), 
-                                this.getRandomInt(),
-                                this.getRandomInt(),
-                                this.getRandomInt(),
-                                this.getRandomInt(),
-                                this.getRandomInt(),
-                                this.getRandomInt(),
-                                this.getRandomInt()
-                            ]
+                            id: 3,
+                            name: 'Pavel Drankov',
+                            login: 'Sammers21',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/16746106?v=4'
+                        },
+                        {
+                            id: 4,
+                            avatar_url: 'https://avatars.githubusercontent.com/u/298504?v=4',
+                            login: 'olegmoz',
+                            name: 'Oleg Mozzhechkov'
+                        },
+                    ],
+                    overallRating: {
+                        value: 62.58,
+                        valueRating: 3.3
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
                         }
+                    ],
+                    techList: [
+                        'Java'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 50.00,
+                            valueRating: 2.5,
+                        },
+                        {
+                            name: 'β',
+                            value: 50.00,
+                            valueRating: 2.5,
+                        },
+                        {
+                            name: 'γ',
+                            value: 57.806,
+                            valueRating: 2.6,
+                        },
                     ]
                 },
-                chartOptions: {
-                    responsive: true,
-                    maintainAspectRatio: false
+                /* Вторая команда */
+                {
+                    sort: 2,
+                    members: [
+                        {
+                            id: 1,
+                            name: 'Ron',
+                            login: 'webron',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/241629?v=4'
+                        },
+                        {
+                            id: 2,
+                            avatar_url: 'https://avatars.githubusercontent.com/u/249413?v=4',
+                            login: 'fehguy',
+                            name: 'Tony Tam'
+                        },
+                    ],
+                    overallRating: {
+                        value: 61.78,
+                        valueRating: 3.3
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
+                        }
+                    ],
+                    techList: [
+                        'Java', 'Javascript'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 39.78,
+                            valueRating: 1.9,
+                        },
+                        {
+                            name: 'β',
+                            value: 39.78,
+                            valueRating: 1.9,
+                        },
+                        {
+                            name: 'γ',
+                            value: 88.07,
+                            valueRating: 4.2,
+                        },
+                    ]
                 },
-                chartHeight: 250
-            }
-        },
-        methods: {
-            getRandomInt () {
-                return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-            }
+
+                {
+                    sort: 3,
+                    members: [
+                        {
+                            id: 1,
+                            name: 'Nick Sieger',
+                            login: 'nicksieger',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/154?v=4'
+                        },
+                        {
+                            id: 2,
+                            avatar_url: 'https://avatars.githubusercontent.com/u/45967?v=4',
+                            login: 'kares',
+                            name: 'Karol Bucek'
+                        },
+                    ],
+                    overallRating: {
+                        value: 61.37,
+                        valueRating: 3.2
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
+                        }
+                    ],
+                    techList: [
+                        'Java', 'Ruby'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 34.67,
+                            valueRating: 1.85,
+                        },
+                        {
+                            name: 'β',
+                            value: 34.67,
+                            valueRating: 1.85,
+                        },
+                        {
+                            name: 'γ',
+                            value: 84.86,
+                            valueRating: 4.1,
+                        },
+                    ]
+                },
+                {
+                    sort: 4,
+                    members: [
+                        {
+                            id: 11,
+                            name: 'Libor Vala',
+                            login: 'valib',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/1472678?v=4'
+                        },
+                        {
+                            id: 22,
+                            avatar_url: 'https://avatars.githubusercontent.com/u/31533?v=4',
+                            login: 'chocolateboy',
+                            name: 'chocolateboy'
+                        },
+                        {
+                            login: 'Zsombor',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/66230?v=4',
+                            id: 33,
+                            name: 'zsombor'
+                        },
+                        {
+                            id: 44,
+                            login: 'Happy-Neko',
+                            name: 'I. Sokolov',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/11806?v=4'
+                        },
+                        {
+                            id: 55,
+                            login: 'Raptor399',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/879970?v=4',
+                            name: 'Patrick Atoon'
+                        },
+                        {
+                            id: 66,
+                            login: 'robinmulder',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/120075?v=4',
+                            name: 'Robin Mulder'
+                        },
+                        {
+                            id: 77,
+                            login: 'shagr4th',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/405318?v=4',
+                            name: 'Arnaud Brochard'
+                        },
+                        {
+                            id: 88,
+                            login: 'tcox2',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/231512?v=4',
+                            name: 'Tim Cox'
+                        },
+
+                    ],
+                    overallRating: {
+                        value: 50.0,
+                        valueRating: 2.5
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
+                        }
+                    ],
+                    techList: [
+                        'Java'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 35.39,
+                            valueRating: 1.8,
+                        },
+                        {
+                            name: 'β',
+                            value: 35.39,
+                            valueRating: 1.8,
+                        },
+                        {
+                            name: 'γ',
+                            value: 83.00,
+                            valueRating: 4.05,
+                        },
+                    ]
+                },
+                {
+                    sort: 5,
+                    members: [
+                        {
+                            id: 3,
+                            name: 'Dan Allen',
+                            login: 'mojavelinux',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/79351?v=4'
+                        },
+                        {
+                            id: 4,
+                            avatar_url: 'https://avatars.githubusercontent.com/u/132158?v=4',
+                            login: 'aslakknutsen',
+                            name: 'Aslak Knutsen'
+                        },
+                    ],
+                    overallRating: {
+                        value: 50.01,
+                        valueRating: 2.5
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
+                        }
+                    ],
+                    techList: [
+                        'Java'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 21.58,
+                            valueRating: 1.7,
+                        },
+                        {
+                            name: 'β',
+                            value: 21.58,
+                            valueRating: 1.7,
+                        },
+                        {
+                            name: 'γ',
+                            value: 85.45,
+                            valueRating: 4.2,
+                        },
+                    ]
+                },
+                {
+                    sort: 6,
+                    members: [
+                        {
+                            id: 3,
+                            name: 'Paul Dubs',
+                            login: 'treo',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/509379?v=4'
+                        },
+                        {
+                            id: 2360237,
+                            login: 'AlexDBlack',
+                            name: 'Alex Black',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/2360237?v=4'
+                        },
+                        {
+                            login: 'eraly',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/8340500?v=4',
+                            id: 8340500,
+                            name: 'Susan Eraly'
+                        },
+                        {
+                            id: 12250879,
+                            name: 'raver119',
+                            login: 'raver119',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/12250879?v=4'
+                        },
+                        {
+                            id: 3328023,
+                            avatar_url: 'https://avatars.githubusercontent.com/u/3328023?v=4',
+                            login: 'saudet',
+                            name: 'Samuel Audet'
+                        }
+                    ],
+                    overallRating: {
+                        value: 62.58,
+                        valueRating: 3.3
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
+                        }
+                    ],
+                    techList: [
+                        'C', 'C++', 'Java'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 51.71,
+                            valueRating: 2.6,
+                        },
+                        {
+                            name: 'β',
+                            value: 51.71,
+                            valueRating: 2.6,
+                        },
+                        {
+                            name: 'γ',
+                            value: 57.806,
+                            valueRating: 2.6,
+                        },
+                    ]
+                },
+                {
+                    sort: 7,
+                    members: [
+                        {
+                            id: 3,
+                            name: 'Sam Van Oort',
+                            login: 'svanoort',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/5400948?v=4'
+                        },
+                        {
+                            id: 2360237,
+                            login: 'Jesse Glick',
+                            name: 'jglick',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/154109?v=4'
+                        },
+                    ],
+                    overallRating: {
+                        value: 50.00,
+                        valueRating: 2.5
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
+                        }
+                    ],
+                    techList: [
+                        'Java', 'Shell', 'Javascript'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 20.59,
+                            valueRating: 2.0,
+                        },
+                        {
+                            name: 'β',
+                            value: 20.59,
+                            valueRating: 2.0,
+                        },
+                        {
+                            name: 'γ',
+                            value: 84.71,
+                            valueRating: 2.6,
+                        },
+                    ]
+                },
+            ],
+            techBarChartData: {
+                labels: ['PHP', 'Java', 'JavaScript', 'Ruby', 'C', 'Emacs Lisp', 'Elixir', 'Scala', 'Go'],
+                datasets: [
+                    {
+                        label: 'Количество команд, для которых указанная технология в приоритете',
+                        backgroundColor: '#1E88E5',
+                        data: [700, 525, 489, 232, 208, 206, 198, 194, 190]
+                    }
+                ]
+            },
+            membersDistributionBarChartData: {
+                labels: [2,3,4,5,6,7,8,9,12,13,10,11],
+                datasets: [
+                    {
+                        label: 'Количество команд, для которых указанная технология в приоритете',
+                        backgroundColor: '#03AC13',
+                        data: [1727, 484, 242, 156, 120, 74, 72, 56, 38, 35, 35, 32]
+                    }
+                ]
+            },
+            barChartData: {
+                labels: generateAscendingArray(60, 5, 4),
+                datasets: [
+                    {
+                        label: 'Data One',
+                        backgroundColor: '#1E88E5',
+                        data: generateArray(60, 1000, 3000).reverse()
+                    }
+                ]
+            },
+            chartOptions: {
+                responsive: true,
+                maintainAspectRatio: false
+            },
+            chartHeight: 250
         }
-    }
+    },
+    methods: {
+        getRandomInt () {
+            return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+        }
+    },
+    /*computed : {
+        teams () {
+            return this.$store.getters.demoTeams
+        }
+    }*/
+}
 </script>
 
 <style scoped>

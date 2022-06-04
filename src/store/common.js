@@ -1,10 +1,11 @@
 export default {
     state: {
+        demo: true,
         loading: false,
         error: null,
         info: null,
         showPerPage: 12,
-        token: '480a8191b26fcf697962209b002185b39c4591d3' // временно пока что - для демки пойдет.
+        token: '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' // временно пока что - для демки пойдет.
     },
     mutations: {
         setLoading (state, payload) {
