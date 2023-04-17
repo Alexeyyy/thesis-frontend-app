@@ -386,6 +386,128 @@ export default {
                     sort: 4,
                     members: [
                         {
+                            id: 3,
+                            name: 'Paul Dubs',
+                            login: 'treo',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/509379?v=4'
+                        },
+                        {
+                            id: 2360237,
+                            login: 'AlexDBlack',
+                            name: 'Alex Black',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/2360237?v=4'
+                        },
+                        {
+                            login: 'eraly',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/8340500?v=4',
+                            id: 8340500,
+                            name: 'Susan Eraly'
+                        },
+                        {
+                            id: 12250879,
+                            name: 'raver119',
+                            login: 'raver119',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/12250879?v=4'
+                        },
+                        {
+                            id: 3328023,
+                            avatar_url: 'https://avatars.githubusercontent.com/u/3328023?v=4',
+                            login: 'saudet',
+                            name: 'Samuel Audet'
+                        }
+                    ],
+                    overallRating: {
+                        value: 62.58,
+                        valueRating: 3.3
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
+                        }
+                    ],
+                    techList: [
+                        'C', 'C++', 'Java'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 51.71,
+                            valueRating: 2.6,
+                        },
+                        {
+                            name: 'β',
+                            value: 51.71,
+                            valueRating: 2.6,
+                        },
+                        {
+                            name: 'γ',
+                            value: 57.806,
+                            valueRating: 2.6,
+                        },
+                    ]
+                },
+                {
+                    sort: 5,
+                    members: [
+                        {
+                            id: 3,
+                            name: 'Dan Allen',
+                            login: 'mojavelinux',
+                            avatar_url: 'https://avatars.githubusercontent.com/u/79351?v=4'
+                        },
+                        {
+                            id: 4,
+                            avatar_url: 'https://avatars.githubusercontent.com/u/132158?v=4',
+                            login: 'aslakknutsen',
+                            name: 'Aslak Knutsen'
+                        },
+                    ],
+                    overallRating: {
+                        value: 50.01,
+                        valueRating: 2.5
+                    },
+                    repos: [
+                        {
+                            id: 1,
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
+                        }
+                    ],
+                    techList: [
+                        'Java'
+                    ],
+                    metrics: [
+                        {
+                            name: 'λ',
+                            value: 21.58,
+                            valueRating: 1.7,
+                        },
+                        {
+                            name: 'β',
+                            value: 21.58,
+                            valueRating: 1.7,
+                        },
+                        {
+                            name: 'γ',
+                            value: 85.45,
+                            valueRating: 4.2,
+                        },
+                    ]
+                },
+                {
+                    sort: 6,
+                    members: [
+                        {
                             id: 11,
                             name: 'Libor Vala',
                             login: 'valib',
@@ -468,128 +590,6 @@ export default {
                             name: 'γ',
                             value: 83.00,
                             valueRating: 4.05,
-                        },
-                    ]
-                },
-                {
-                    sort: 5,
-                    members: [
-                        {
-                            id: 3,
-                            name: 'Dan Allen',
-                            login: 'mojavelinux',
-                            avatar_url: 'https://avatars.githubusercontent.com/u/79351?v=4'
-                        },
-                        {
-                            id: 4,
-                            avatar_url: 'https://avatars.githubusercontent.com/u/132158?v=4',
-                            login: 'aslakknutsen',
-                            name: 'Aslak Knutsen'
-                        },
-                    ],
-                    overallRating: {
-                        value: 50.01,
-                        valueRating: 2.5
-                    },
-                    repos: [
-                        {
-                            id: 1,
-                        },
-                        {
-                            id: 2
-                        },
-                        {
-                            id: 3
-                        }
-                    ],
-                    techList: [
-                        'Java'
-                    ],
-                    metrics: [
-                        {
-                            name: 'λ',
-                            value: 21.58,
-                            valueRating: 1.7,
-                        },
-                        {
-                            name: 'β',
-                            value: 21.58,
-                            valueRating: 1.7,
-                        },
-                        {
-                            name: 'γ',
-                            value: 85.45,
-                            valueRating: 4.2,
-                        },
-                    ]
-                },
-                {
-                    sort: 6,
-                    members: [
-                        {
-                            id: 3,
-                            name: 'Paul Dubs',
-                            login: 'treo',
-                            avatar_url: 'https://avatars.githubusercontent.com/u/509379?v=4'
-                        },
-                        {
-                            id: 2360237,
-                            login: 'AlexDBlack',
-                            name: 'Alex Black',
-                            avatar_url: 'https://avatars.githubusercontent.com/u/2360237?v=4'
-                        },
-                        {
-                            login: 'eraly',
-                            avatar_url: 'https://avatars.githubusercontent.com/u/8340500?v=4',
-                            id: 8340500,
-                            name: 'Susan Eraly'
-                        },
-                        {
-                            id: 12250879,
-                            name: 'raver119',
-                            login: 'raver119',
-                            avatar_url: 'https://avatars.githubusercontent.com/u/12250879?v=4'
-                        },
-                        {
-                            id: 3328023,
-                            avatar_url: 'https://avatars.githubusercontent.com/u/3328023?v=4',
-                            login: 'saudet',
-                            name: 'Samuel Audet'
-                        }
-                    ],
-                    overallRating: {
-                        value: 62.58,
-                        valueRating: 3.3
-                    },
-                    repos: [
-                        {
-                            id: 1,
-                        },
-                        {
-                            id: 2
-                        },
-                        {
-                            id: 3
-                        }
-                    ],
-                    techList: [
-                        'C', 'C++', 'Java'
-                    ],
-                    metrics: [
-                        {
-                            name: 'λ',
-                            value: 51.71,
-                            valueRating: 2.6,
-                        },
-                        {
-                            name: 'β',
-                            value: 51.71,
-                            valueRating: 2.6,
-                        },
-                        {
-                            name: 'γ',
-                            value: 57.806,
-                            valueRating: 2.6,
                         },
                     ]
                 },

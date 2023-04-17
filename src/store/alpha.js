@@ -58,6 +58,7 @@ export default {
                 let json = JSON.parse(await searchUsers(request.query, request.token))
                 let totalCount = json.total_count
 
+
                 let users = json.items
                 let usersData = []
 

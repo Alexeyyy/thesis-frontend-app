@@ -5,7 +5,7 @@ export default {
         error: null,
         info: null,
         showPerPage: 12,
-        token: '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' // временно пока что - для демки пойдет.
+        token: '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' // временно пока что - для демки пойдет.
     },
     mutations: {
         setLoading (state, payload) {
